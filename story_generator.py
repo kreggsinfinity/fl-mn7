@@ -1,67 +1,73 @@
 """
-Soothing Short Stories & Comprehension - Video Generator (16:9 Landscape)
-Slow, calming bedtime and immersion stories with paragraph-by-paragraph reading and vocabulary spotlight.
+SOOTHING ENGLISH STORIES & PODCAST - 16:9 FULL HD (1920x1080) VIDEO GENERATOR
+Theme: Midnight Celestial Acoustic Studio
+Visuals: Vintage Chrome Ribbon Mic + 30-Bar Starlight Ripple Equalizer + Single-Line Highlighted Subtitles
 """
-import os, sys, json, subprocess, random, requests, re, asyncio
+import os, sys, json, math, subprocess, random, requests, re, asyncio
 from pathlib import Path
 from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 from dotenv import load_dotenv
 import edge_tts
 
+if sys.platform == 'win32':
+    try: sys.stdout.reconfigure(encoding='utf-8')
+    except Exception: pass
+
 load_dotenv()
 
 BASE_DIR = Path(__file__).parent
+ASSETS_DIR = BASE_DIR / "assets"
 OUTPUT_DIR = BASE_DIR / "output"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-WIDTH = 1920
-HEIGHT = 1080
-FPS = 30
+VIDEO_WIDTH = 1920
+VIDEO_HEIGHT = 1080
+SUBFRAMES_PER_SEC = 2
 
-BG_TWILIGHT = (8, 12, 28)
-AMBER_STARLIGHT = (253, 230, 138)
+STARLIGHT_GOLD = (253, 224, 71)
+MOON_SILVER = (224, 231, 255)
+MIDNIGHT_INDIGO = (99, 102, 241)
 CYAN_MIST = (125, 211, 252)
 WHITE = (255, 255, 255)
-CARD_BG = (18, 24, 48)
+DARK_BG = (10, 11, 26)
+CARD_BG = (18, 20, 44)
+CARD_BORDER = (48, 52, 98)
+MUTED_TEXT = (165, 175, 215)
 
-VOICE_NARRATOR = "en-US-AvaNeural"
-VOICE_RATE = "-20%"    # Very slow, calming, peaceful reading pace
+EMMA_VOICE = "en-US-AvaNeural"
+ANDREW_VOICE = "en-US-AndrewNeural"
+VOICE_RATE = "-18%"
 
 STORIES = [
     {
         "title": "THE OLD BOOKSHOP IN THE RAIN",
         "icon": "🌧️",
-        "paragraphs": [
-            {
-                "text": "Outside, a gentle autumn rain was falling over the cobblestone streets.",
-                "vocab": [("Gentle", "mild and soft"), ("Autumn", "the season of fall")]
-            },
-            {
-                "text": "Inside the cozy bookshop, the warm aroma of hot cinnamon tea filled the quiet room.",
-                "vocab": [("Aroma", "a pleasant, comforting smell"), ("Cozy", "warm and comfortable")]
-            },
-            {
-                "text": "An old brass clock ticked softly by the fireplace, creating a peaceful rhythm.",
-                "vocab": [("Brass", "a bright yellow metal"), ("Peaceful", "calm and free from noise")]
-            },
-            {
-                "text": "Taking a deep breath, she opened a leather-bound book and began to read.",
-                "vocab": [("Leather-bound", "wrapped in leather cover"), ("Deep breath", "slow relaxing inhale")]
-            }
+        "turns": [
+            {"speaker": "Host1", "text": "Outside the cobblestone window, a gentle autumn rain was falling quietly over the city."},
+            {"speaker": "Host2", "text": "Inside the cozy shop, the warm aroma of cinnamon tea filled every corner of the wooden shelves."},
+            {"speaker": "Host1", "text": "Notice how the word **gentle** describes soft, calming rain, perfect for relaxing listening practice."},
+            {"speaker": "Host2", "text": "Taking a deep breath, she opened a leather-bound book and stepped into another **peaceful** world."}
+        ]
+    },
+    {
+        "title": "THE MIDNIGHT TRAIN TO THE MOUNTAINS",
+        "icon": "🚂",
+        "turns": [
+            {"speaker": "Host1", "text": "The midnight train glided smoothly through snow-covered pine forests beneath the glowing moon."},
+            {"speaker": "Host2", "text": "Passengers wrapped themselves in warm wool blankets, listening to the rhythmic hum of the tracks."},
+            {"speaker": "Host1", "text": "The phrase **rhythmic hum** paints a soothing picture of continuous, peaceful mechanical sounds."},
+            {"speaker": "Host2", "text": "As the peaks appeared in the distance, a profound sense of **serenity** settled over everyone."}
         ]
     }
 ]
 
 def load_font(size, bold=True):
     fonts_to_try = [
-        "C:/Windows/Fonts/georgiab.ttf",
-        "C:/Windows/Fonts/georgia.ttf",
-        "C:/Windows/Fonts/arialbd.ttf",
-        "C:/Windows/Fonts/arial.ttf",
-        "C:/Windows/Fonts/segoeuib.ttf",
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "C:/Windows/Fonts/georgiab.ttf" if bold else "C:/Windows/Fonts/georgia.ttf",
+        "C:/Windows/Fonts/arialbd.ttf" if bold else "C:/Windows/Fonts/arial.ttf",
+        "C:/Windows/Fonts/segoeuib.ttf" if bold else "C:/Windows/Fonts/segoeui.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
     ]
     for p in fonts_to_try:
         if Path(p).exists():
@@ -69,140 +75,261 @@ def load_font(size, bold=True):
             except: continue
     return ImageFont.load_default()
 
-def render_story_frame(story, p_idx, total_p, elapsed, total_dur, out_path):
-    canvas = Image.new("RGBA", (WIDTH, HEIGHT), BG_TWILIGHT)
+def clean_text(text):
+    text = re.sub(r'\b(mm+|um+|uh+|ah+)\b', '', text, flags=re.IGNORECASE)
+    text = re.sub(r'\s+', ' ', text).strip()
+    return text
+
+async def generate_audio_files(turns, run_dir):
+    audio_dir = run_dir / "audio"
+    audio_dir.mkdir(parents=True, exist_ok=True)
+    audio_list = []
+    for i, turn in enumerate(turns):
+        mp3_p = audio_dir / f"turn_{i:03d}.mp3"
+        spoken = re.sub(r'\*\*(.*?)\*\*', r'\1', turn["text"])
+        voice = EMMA_VOICE if turn["speaker"] == "Host1" else ANDREW_VOICE
+        comm = edge_tts.Communicate(spoken, voice, rate=VOICE_RATE)
+        await comm.save(str(mp3_p))
+
+        try:
+            r = subprocess.run(
+                ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                 "-of", "default=noprint_wrappers=1:nokey=1", str(mp3_p)],
+                capture_output=True, text=True, check=True
+            )
+            duration = float(r.stdout.strip())
+        except:
+            duration = 5.0
+        audio_list.append({"path": str(mp3_p), "duration": duration, "speaker": turn["speaker"]})
+    return audio_list
+
+def draw_vintage_ribbon_mic(draw, center_x, center_y, is_active, host_label):
+    # Desk circular base
+    base_c = STARLIGHT_GOLD if is_active else (45, 50, 85)
+    draw.ellipse([(center_x - 65, center_y + 115), (center_x + 65, center_y + 135)], fill=(20, 24, 48), outline=base_c, width=3)
+    # Stand column
+    draw.rectangle([(center_x - 7, center_y - 10), (center_x + 7, center_y + 115)], fill=(60, 68, 110))
+
+    # Chrome Ribbon Mic Housing (Classic rectangular broadcast ribbon mic)
+    mic_c = (28, 34, 68) if not is_active else (40, 52, 105)
+    draw.rounded_rectangle([(center_x - 34, center_y - 95), (center_x + 34, center_y - 15)], radius=12, fill=mic_c, outline=STARLIGHT_GOLD if is_active else CARD_BORDER, width=3)
+
+    # Front perforated diamond mesh
+    for gy in range(center_y - 85, center_y - 25, 10):
+        draw.line([(center_x - 26, gy), (center_x + 26, gy)], fill=CYAN_MIST if is_active else (55, 65, 105), width=2)
+
+    # Glowing halo when active
+    if is_active:
+        draw.ellipse([(center_x - 60, center_y - 85), (center_x + 60, center_y + 15)], outline=STARLIGHT_GOLD, width=2)
+
+    # Host Label
+    f_p = load_font(22, bold=True)
+    box_c = (22, 28, 58) if not is_active else (38, 48, 98)
+    draw.rounded_rectangle([(center_x - 85, center_y + 145), (center_x + 85, center_y + 180)], radius=8, fill=box_c, outline=STARLIGHT_GOLD, width=2)
+    tag = f"🎙️ {host_label}" + (" (NARRATING)" if is_active else "")
+    draw.text((center_x, center_y + 162), tag, fill=STARLIGHT_GOLD if is_active else MUTED_TEXT, font=f_p, anchor="mm")
+
+def draw_starlight_equalizer(draw, center_x, center_y, width, height, sub_idx, is_speaking):
+    num_bars = 30
+    bar_w = 8
+    gap = (width - (num_bars * bar_w)) // (num_bars - 1)
+
+    draw.rounded_rectangle([(center_x - width//2 - 18, center_y - height//2 - 12),
+                            (center_x + width//2 + 18, center_y + height//2 + 12)],
+                           radius=16, fill=(16, 18, 40), outline=MIDNIGHT_INDIGO, width=2)
+
+    f_hud = load_font(18, bold=True)
+    draw.text((center_x, center_y - height//2 - 1), "✨ CELESTIAL ACOUSTIC SOUND RIPPLE ✨", fill=CYAN_MIST, font=f_hud, anchor="mm")
+
+    start_x = center_x - width//2
+    for b in range(num_bars):
+        if is_speaking:
+            phase = sub_idx * 0.82 + b * 0.35
+            wave = abs(math.sin(phase)) * 0.76 + abs(math.cos(phase * 1.25)) * 0.24
+            bar_h = int(10 + wave * (height - 26))
+        else:
+            bar_h = 8
+
+        bx = start_x + b * (bar_w + gap)
+        by = center_y + height//2 - 8 - bar_h
+
+        # Silver to starlight gold gradient
+        fill_c = STARLIGHT_GOLD if b % 2 == 0 else MOON_SILVER
+        draw.rounded_rectangle([(bx, by), (bx + bar_w, center_y + height//2 - 8)], radius=3, fill=fill_c)
+
+def render_podcast_subframe(story, turn, turn_idx, sub_idx, total_subframes, elapsed, total_dur, out_path):
+    canvas = Image.new("RGBA", (VIDEO_WIDTH, VIDEO_HEIGHT), DARK_BG)
     draw = ImageDraw.Draw(canvas)
 
-    # Twilight gradient background
-    for y in range(HEIGHT):
-        ratio = y / HEIGHT
-        r = int(8 + ratio * 14)
-        g = int(12 + ratio * 16)
-        b = int(28 + ratio * 32)
-        draw.line([(0, y), (WIDTH, y)], fill=(r, g, b, 255))
+    # Midnight Celestial Twilight gradient background
+    for y in range(VIDEO_HEIGHT):
+        ratio = y / VIDEO_HEIGHT
+        r = int(10 + ratio * 12)
+        g = int(11 + ratio * 14)
+        b = int(26 + ratio * 32)
+        draw.line([(0, y), (VIDEO_WIDTH, y)], fill=(r, g, b, 255))
 
-    # Add soft ambient star specks
-    random.seed(42)
-    for _ in range(80):
-        sx = random.randint(20, WIDTH - 20)
-        sy = random.randint(20, HEIGHT - 100)
-        alpha = random.randint(80, 200)
-        draw.point((sx, sy), fill=(220, 230, 255, alpha))
+    # Add gentle ambient star specks in upper sky
+    random.seed(101)
+    for _ in range(70):
+        sx = random.randint(30, VIDEO_WIDTH - 30)
+        sy = random.randint(20, 600)
+        alpha = random.randint(70, 220)
+        draw.point((sx, sy), fill=(225, 235, 255, alpha))
 
-    # 1. Header Banner
-    draw.rounded_rectangle([(80, 40), (WIDTH - 80, 120)], radius=20, fill=(18, 26, 52), outline=AMBER_STARLIGHT, width=2)
-    f_hdr = load_font(32, bold=True)
-    draw.text((120, 80), f"🌙 SLOW ENGLISH STORYTIME • RELAX & LEARN", fill=AMBER_STARLIGHT, font=f_hdr, anchor="lm")
-    draw.text((WIDTH - 120, 80), f"{story['icon']} {story['title']}", fill=WHITE, font=f_hdr, anchor="rm")
+    # Top Header Deck
+    # Left: Channel badge
+    draw.rounded_rectangle([(60, 36), (560, 106)], radius=16, fill=CARD_BG, outline=MIDNIGHT_INDIGO, width=2)
+    f_brand = load_font(28, bold=True)
+    draw.text((310, 71), "🌙 CELESTIAL STORY LOUNGE", fill=MOON_SILVER, font=f_brand, anchor="mm")
 
-    current_p = story["paragraphs"][p_idx]
+    # Center: Story Title Pill
+    draw.rounded_rectangle([(590, 36), (1450, 106)], radius=16, fill=(22, 26, 56), outline=STARLIGHT_GOLD, width=2)
+    f_scen = load_font(26, bold=True)
+    draw.text((1020, 71), f"{story['icon']} STORY: {story['title']}", fill=STARLIGHT_GOLD, font=f_scen, anchor="mm")
 
-    # 2. Left Story Card (70% width)
-    story_card_w = 1220
-    draw.rounded_rectangle([(80, 160), (80 + story_card_w, 940)], radius=25, fill=CARD_BG, outline=(50, 65, 105), width=3)
+    # Right: Calming Mode Pill
+    draw.rounded_rectangle([(1480, 36), (1860, 106)], radius=16, fill=(25, 22, 50), outline=CYAN_MIST, width=2)
+    f_air = load_font(26, bold=True)
+    draw.text((1670, 71), "IMMERSION & RELAX", fill=CYAN_MIST, font=f_air, anchor="mm")
 
-    f_p_tag = load_font(26, bold=True)
-    draw.text((120, 210), f"CHAPTER 1  •  PASSAGE {p_idx+1} OF {total_p}", fill=CYAN_MIST, font=f_p_tag, anchor="lm")
+    # Visual Studio Centerpiece: Chrome Ribbon Mics & Starlight Ripple
+    is_emma = (turn["speaker"] == "Host1")
+    is_andrew = not is_emma
 
-    # Render large readable narrative sentence
-    f_story = load_font(52, bold=True)
-    words = current_p["text"].split()
+    # Left Mic: Emma
+    draw_vintage_ribbon_mic(draw, center_x=320, center_y=370, is_active=is_emma, host_label="EMMA")
+
+    # Center Equalizer Deck
+    draw_starlight_equalizer(draw, center_x=960, center_y=350, width=560, height=140, sub_idx=sub_idx, is_speaking=True)
+
+    # Center Story Atmosphere Quote Card
+    draw.rounded_rectangle([(680, 460), (1240, 540)], radius=14, fill=CARD_BG, outline=CARD_BORDER, width=2)
+    f_top = load_font(24, bold=True)
+    draw.text((960, 500), "Slow English Listening • Comprehension", fill=MOON_SILVER, font=f_top, anchor="mm")
+
+    # Right Mic: Andrew
+    draw_vintage_ribbon_mic(draw, center_x=1600, center_y=370, is_active=is_andrew, host_label="ANDREW")
+
+    # LOWER THIRD: SLEEK SINGLE-LINE SUBTITLE DISPLAY WITH WORD-BY-WORD HIGHLIGHTING
+    draw.rounded_rectangle([(100, 680), (1820, 930)], radius=24, fill=(14, 16, 38, 240), outline=MIDNIGHT_INDIGO, width=3)
+
+    # Speaker Tag Pill
+    active_name = "EMMA (Narrator)" if is_emma else "ANDREW (Guide)"
+    draw.rounded_rectangle([(140, 650), (450, 705)], radius=12, fill=MIDNIGHT_INDIGO)
+    f_spk = load_font(26, bold=True)
+    draw.text((295, 677), f"🎙️ {active_name}", fill=WHITE, font=f_spk, anchor="mm")
+
+    # Sentence & Spoken Word Highlighting
+    raw_text = turn["text"]
+    words_clean = [re.sub(r'[\*\*\.]', '', w).strip() for w in raw_text.split() if w.strip()]
+    if not words_clean:
+        words_clean = ["Listen", "carefully"]
+
+    active_word_idx = min(len(words_clean) - 1, int((sub_idx / max(1, total_subframes)) * len(words_clean)))
+
+    f_sub = load_font(42, bold=True)
+    rendered_words = raw_text.split()
+
+    line_words = []
     lines = []
-    cw = []
-    for w in words:
-        tb = draw.textbbox((0, 0), " ".join(cw + [w]), font=f_story)
-        if tb[2] - tb[0] > (story_card_w - 120):
-            lines.append(" ".join(cw))
-            cw = [w]
+    max_w = 1600
+    curr_w = 0
+
+    for w_i, w in enumerate(rendered_words):
+        clean_w = re.sub(r'\*\*(.*?)\*\*', r'\1', w)
+        wb = draw.textbbox((0, 0), clean_w + " ", font=f_sub)
+        w_len = wb[2] - wb[0]
+        if curr_w + w_len > max_w and line_words:
+            lines.append(line_words)
+            line_words = [(w_i, w, clean_w, w_len)]
+            curr_w = w_len
         else:
-            cw.append(w)
-    if cw: lines.append(" ".join(cw))
+            line_words.append((w_i, w, clean_w, w_len))
+            curr_w += w_len
+    if line_words:
+        lines.append(line_words)
 
-    start_y = 520 - (len(lines) * 75) // 2
-    for l_idx, line in enumerate(lines):
-        # Shadow
-        draw.text((123, start_y + l_idx * 75 + 3), line, fill=(0, 0, 0, 200), font=f_story, anchor="lm")
-        # Text
-        draw.text((120, start_y + l_idx * 75), line, fill=WHITE, font=f_story, anchor="lm")
+    y_start = 740 if len(lines) == 1 else 725
+    line_h = 55
+    for l_idx, line in enumerate(lines[:2]):
+        total_line_w = sum(item[3] for item in line)
+        start_x = 960 - total_line_w // 2
+        curr_x = start_x
+        y_pos = y_start + l_idx * line_h
 
-    # 3. Right Vocabulary Spotlight Drawer (30% width)
-    vocab_left = 80 + story_card_w + 30
-    vocab_right = WIDTH - 80
-    draw.rounded_rectangle([(vocab_left, 160), (vocab_right, 940)], radius=25, fill=(16, 22, 44), outline=AMBER_STARLIGHT, width=3)
+        for (w_i, raw_w, clean_w, w_len) in line:
+            is_active_word = (w_i == active_word_idx)
+            is_key_word = ("**" in raw_w)
 
-    f_vhdr = load_font(28, bold=True)
-    draw.text((vocab_left + 30, 210), "📖 VOCABULARY SPOTLIGHT", fill=AMBER_STARLIGHT, font=f_vhdr, anchor="lm")
-
-    vy = 280
-    for vword, vdef in current_p["vocab"]:
-        draw.rounded_rectangle([(vocab_left + 25, vy), (vocab_right - 25, vy + 240)], radius=18, fill=(24, 32, 60), outline=(60, 75, 120), width=2)
-        f_vw = load_font(38, bold=True)
-        draw.text((vocab_left + 50, vy + 55), f"✨ {vword}", fill=AMBER_STARLIGHT, font=f_vw, anchor="lm")
-
-        f_vd = load_font(28, bold=False)
-        dwords = vdef.split()
-        dlines = []
-        cd = []
-        for dw in dwords:
-            tb = draw.textbbox((0, 0), " ".join(cd + [dw]), font=f_vd)
-            if tb[2] - tb[0] > (vocab_right - vocab_left - 100):
-                dlines.append(" ".join(cd))
-                cd = [dw]
+            if is_active_word:
+                # Starlight Gold active karaoke pill
+                draw.rounded_rectangle([(curr_x - 4, y_pos - 6), (curr_x + w_len - 2, y_pos + 46)], radius=8, fill=STARLIGHT_GOLD)
+                draw.text((curr_x, y_pos), clean_w, fill=(12, 14, 30), font=f_sub)
+            elif is_key_word:
+                draw.text((curr_x, y_pos), clean_w, fill=CYAN_MIST, font=f_sub)
             else:
-                cd.append(dw)
-        if cd: dlines.append(" ".join(cd))
-        for dl_idx, dl in enumerate(dlines):
-            draw.text((vocab_left + 50, vy + 120 + dl_idx * 40), dl, fill=WHITE, font=f_vd, anchor="lm")
-        vy += 270
+                draw.text((curr_x, y_pos), clean_w, fill=WHITE, font=f_sub)
+            curr_x += w_len
 
-    # 4. Bottom Footer & Progress
-    draw.line([(0, 1000), (WIDTH, 1000)], fill=(30, 40, 70), width=2)
+    # Tip Ribbon inside the Lower Third
+    f_tip = load_font(22, bold=False)
+    draw.text((960, 885), "✨ Immersion Tip: Close your eyes or relax while listening to absorb sentence cadences naturally.", fill=MUTED_TEXT, font=f_tip, anchor="mm")
+
+    # Bottom Progress Deck
+    draw.line([(0, 1020), (VIDEO_WIDTH, 1020)], fill=(32, 38, 70), width=3)
     ratio = min(1.0, elapsed / max(1.0, total_dur))
-    draw.line([(0, 1000), (int(WIDTH * ratio), 1000)], fill=AMBER_STARLIGHT, width=5)
+    draw.line([(0, 1020), (int(VIDEO_WIDTH * ratio), 1020)], fill=STARLIGHT_GOLD, width=6)
 
-    f_foot = load_font(26, bold=False)
-    draw.text((80, 1040), "Relax • Close Your Eyes • Listen to English Naturally", fill=(180, 195, 225), font=f_foot, anchor="lm")
-    t_str = f"{int(elapsed // 60):02d}:{int(elapsed % 60):02d} / {int(total_dur // 60):02d}:{int(total_dur % 60):02d}"
-    draw.text((WIDTH - 80, 1040), t_str, fill=AMBER_STARLIGHT, font=f_foot, anchor="rm")
+    f_bot = load_font(24, bold=False)
+    draw.text((70, 1050), "Soothing Short Stories • Slow English Audio • Effortless Immersion", fill=MUTED_TEXT, font=f_bot, anchor="lm")
+    time_str = f"{int(elapsed // 60):02d}:{int(elapsed % 60):02d} / {int(total_dur // 60):02d}:{int(total_dur % 60):02d}"
+    draw.text((1850, 1050), time_str, fill=STARLIGHT_GOLD, font=f_bot, anchor="rm")
 
-    canvas.convert("RGB").save(out_path, quality=92)
+    canvas.convert("RGB").save(out_path, quality=90)
 
-async def assemble_story_video(story, run_dir):
+def assemble_video(story, turns, audio_list, run_dir):
     frames_dir = run_dir / "frames"
     clips_dir = run_dir / "clips"
-    audio_dir = run_dir / "audio"
-    for d in [frames_dir, clips_dir, audio_dir]:
-        d.mkdir(parents=True, exist_ok=True)
+    frames_dir.mkdir(parents=True, exist_ok=True)
+    clips_dir.mkdir(parents=True, exist_ok=True)
 
-    total_p = len(story["paragraphs"])
-    audio_durations = []
-
-    # 1. Synthesize all audio
-    for i, p in enumerate(story["paragraphs"]):
-        mp3_p = audio_dir / f"p_{i}.mp3"
-        await edge_tts.Communicate(p["text"], VOICE_NARRATOR, rate=VOICE_RATE).save(str(mp3_p))
-        r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", str(mp3_p)], capture_output=True, text=True, check=True)
-        dur = float(r.stdout.strip())
-        audio_durations.append(dur)
-
-    total_dur = sum(audio_durations)
+    total_dur = sum(a["duration"] for a in audio_list)
     elapsed = 0.0
     clips = []
 
-    # 2. Render clips
-    for i, p in enumerate(story["paragraphs"]):
-        mp3_p = audio_dir / f"p_{i}.mp3"
-        dur = audio_durations[i]
-        frame_p = frames_dir / f"frame_{i}.png"
-        render_story_frame(story, i, total_p, elapsed, total_dur, str(frame_p))
+    for i, (turn, audio) in enumerate(zip(turns, audio_list)):
+        dur = audio["duration"]
+        subframes_count = max(8, int(dur * SUBFRAMES_PER_SEC))
 
-        clip_p = clips_dir / f"clip_{i}.mp4"
-        subprocess.run([
-            "ffmpeg", "-y", "-loop", "1", "-i", str(frame_p), "-i", str(mp3_p),
-            "-vf", f"scale={WIDTH}:{HEIGHT},fps={FPS}",
-            "-c:v", "libx264", "-c:a", "aac", "-b:a", "192k",
-            "-pix_fmt", "yuv420p", "-preset", "fast", "-t", f"{dur:.3f}", str(clip_p)
-        ], check=True, capture_output=True)
+        turn_frames_dir = frames_dir / f"turn_{i:03d}"
+        turn_frames_dir.mkdir(parents=True, exist_ok=True)
+
+        for s_idx in range(subframes_count):
+            frame_p = turn_frames_dir / f"frame_{s_idx:04d}.png"
+            sub_elapsed = elapsed + (s_idx / subframes_count) * dur
+            render_podcast_subframe(
+                story, turn, i, s_idx, subframes_count,
+                sub_elapsed, total_dur, str(frame_p)
+            )
+
+        clip_p = clips_dir / f"clip_{i:03d}.mp4"
+        input_pattern = str(turn_frames_dir / "frame_%04d.png")
+
+        cmd = [
+            "ffmpeg", "-y",
+            "-framerate", str(SUBFRAMES_PER_SEC),
+            "-i", input_pattern,
+            "-i", audio["path"],
+            "-c:v", "libx264",
+            "-pix_fmt", "yuv420p",
+            "-c:a", "aac",
+            "-b:a", "192k",
+            "-shortest",
+            "-preset", "veryfast",
+            str(clip_p)
+        ]
+        subprocess.run(cmd, check=True, capture_output=True)
 
         clips.append(clip_p)
         elapsed += dur
@@ -212,27 +339,32 @@ async def assemble_story_video(story, run_dir):
         for c in clips:
             f.write(f"file '{c.resolve().as_posix()}'\n")
 
-    final_v = run_dir / "story_listening_final.mp4"
-    subprocess.run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat_txt), "-c", "copy", str(final_v)], check=True, capture_output=True)
-    return final_v, total_dur
+    final_video = run_dir / "story_listening_podcast_final.mp4"
+    subprocess.run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat_txt), "-c", "copy", str(final_video)], check=True, capture_output=True)
+    return final_video, total_dur
 
-async def run_story_generation(idx=0):
+async def run_story_generation(idx=0, turns_count=4):
     story = STORIES[idx % len(STORIES)]
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     run_dir = OUTPUT_DIR / f"run_{ts}"
     run_dir.mkdir(parents=True, exist_ok=True)
 
-    print(f"[Story Listening] Generating Calming Story: '{story['title']}'...")
-    final_v, dur = await assemble_story_video(story, run_dir)
+    turns = story["turns"][:turns_count]
+    print(f"[Story Podcast] Generating 16:9 Celestial Lounge: '{story['title']}' ({len(turns)} turns)...")
+    audio_list = await generate_audio_files(turns, run_dir)
+    video_p, dur = assemble_video(story, turns, audio_list, run_dir)
 
     meta = {
-        "title": f"Slow English Story: {story['title']} | Relax, Sleep & Comprehend",
-        "description": f"Listen to a relaxing, slow English bedtime story with sentence highlighting and vocabulary definitions: '{story['title']}'. Enjoy peaceful English listening! 🌙☕📚",
+        "title": f"Soothing English Story: {story['title']} 🌙 Slow English Podcast",
+        "description": f"Relax, unwind, and improve your English listening with our soothing bedtime immersion story: '{story['title']}'. 🌧️✨",
         "story": story["title"],
         "duration_seconds": dur
     }
     with open(run_dir / "metadata.json", "w", encoding="utf-8") as f:
         json.dump(meta, f, indent=2)
 
-    print(f"[Story Listening] Video ready: {final_v}")
-    return final_v, meta
+    print(f"[Story Podcast] Video ready: {video_p}")
+    return video_p, meta
+
+if __name__ == "__main__":
+    asyncio.run(run_story_generation(idx=0, turns_count=2))
