@@ -8,6 +8,15 @@ const PODCAST_HISTORY = [
     "duration_min": 21.5,
     "video_file": "podcast_ep1_20261015_195739.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 2,
+    "topic": "The Scent of Old Books: Cultivating Vocabulary for Cozy Atmospheres",
+    "date": "2026-10-16T19:57:31.093975",
+    "duration_sec": 1270.44,
+    "duration_min": 21.17,
+    "video_file": "podcast_ep2_20261016_193747.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
