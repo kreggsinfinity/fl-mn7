@@ -16,5 +16,14 @@
     "duration_min": 21.17,
     "video_file": "podcast_ep2_20261016_193747.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 3,
+    "topic": "Velvet Nights & Luminous Language: Describing Celestial Wonders",
+    "date": "2026-10-17T18:59:40.726828",
+    "duration_sec": 1339.75,
+    "duration_min": 22.33,
+    "video_file": "podcast_ep3_20261017_183933.mp4",
+    "platform": "Facebook"
   }
 ]
