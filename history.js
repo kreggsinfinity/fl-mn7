@@ -26,6 +26,15 @@ const PODCAST_HISTORY = [
     "duration_min": 22.33,
     "video_file": "podcast_ep3_20261017_183933.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 4,
+    "topic": "The Art of the Hearth: Cozy Vocabulary for Winter's Embrace",
+    "date": "2026-10-18T19:00:15.980208",
+    "duration_sec": 1295.38,
+    "duration_min": 21.59,
+    "video_file": "podcast_ep4_20261018_184522.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
