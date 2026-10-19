@@ -35,6 +35,15 @@ const PODCAST_HISTORY = [
     "duration_min": 21.59,
     "video_file": "podcast_ep4_20261018_184522.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 5,
+    "topic": "Candlelight Tales: Painting Pictures with Evocative Adjectives",
+    "date": "2026-10-19T21:31:33.536959",
+    "duration_sec": 1299.89,
+    "duration_min": 21.66,
+    "video_file": "podcast_ep5_20261019_211120.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
