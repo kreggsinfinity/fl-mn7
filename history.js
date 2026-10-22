@@ -62,6 +62,15 @@ const PODCAST_HISTORY = [
     "duration_min": 23.2,
     "video_file": "podcast_ep7_20261021_201620.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 8,
+    "topic": "Sipping Stories: Vocabulary for Comforting Beverages & Warmth",
+    "date": "2026-10-22T20:27:42.365059",
+    "duration_sec": 1349.06,
+    "duration_min": 22.48,
+    "video_file": "podcast_ep8_20261022_201413.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
