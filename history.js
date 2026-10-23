@@ -71,6 +71,15 @@ const PODCAST_HISTORY = [
     "duration_min": 22.48,
     "video_file": "podcast_ep8_20261022_201413.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 9,
+    "topic": "The Language of Luminescence: Illuminating Your Descriptions with Light and Shadow",
+    "date": "2026-10-23T20:20:28.623761",
+    "duration_sec": 1397.23,
+    "duration_min": 23.29,
+    "video_file": "podcast_ep9_20261023_200011.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
