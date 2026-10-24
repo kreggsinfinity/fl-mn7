@@ -80,6 +80,15 @@ const PODCAST_HISTORY = [
     "duration_min": 23.29,
     "video_file": "podcast_ep9_20261023_200011.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 10,
+    "topic": "Echoes in the Attic: Unlocking Vocabulary for Nostalgia and Memory",
+    "date": "2026-10-24T19:18:33.390752",
+    "duration_sec": 1262.4,
+    "duration_min": 21.04,
+    "video_file": "podcast_ep10_20261024_185422.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
