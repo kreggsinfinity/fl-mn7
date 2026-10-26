@@ -98,6 +98,15 @@ const PODCAST_HISTORY = [
     "duration_min": 23.62,
     "video_file": "podcast_ep11_20261025_190909.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 12,
+    "topic": "The Alchemy of Ambiance: Crafting Cozy Feelings with Sound and Scent Vocabulary",
+    "date": "2026-10-26T21:28:09.426644",
+    "duration_sec": 1289.81,
+    "duration_min": 21.5,
+    "video_file": "podcast_ep12_20261026_210658.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
