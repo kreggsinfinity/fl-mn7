@@ -107,6 +107,15 @@ const PODCAST_HISTORY = [
     "duration_min": 21.5,
     "video_file": "podcast_ep12_20261026_210658.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 13,
+    "topic": "Midnight Bloom: Unlocking Poetic Language for Dreamy Nightscapes",
+    "date": "2026-10-27T21:15:31.080846",
+    "duration_sec": 1336.51,
+    "duration_min": 22.28,
+    "video_file": "podcast_ep13_20261027_204925.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
