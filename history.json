@@ -115,5 +115,14 @@
     "duration_min": 22.28,
     "video_file": "podcast_ep13_20261027_204925.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 14,
+    "topic": "Twilight's Embrace: Mastering Vocabulary for the Transition from Day to Night",
+    "date": "2026-10-28T21:33:45.484966",
+    "duration_sec": 1400.02,
+    "duration_min": 23.33,
+    "video_file": "podcast_ep14_20261028_211244.mp4",
+    "platform": "Facebook"
   }
 ]
