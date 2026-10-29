@@ -125,6 +125,15 @@ const PODCAST_HISTORY = [
     "duration_min": 23.33,
     "video_file": "podcast_ep14_20261028_211244.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 15,
+    "topic": "The Weaver's Touch: Crafting Rich Narratives with Descriptive Verbs",
+    "date": "2026-10-29T21:32:47.622558",
+    "duration_sec": 1354.7,
+    "duration_min": 22.58,
+    "video_file": "podcast_ep15_20261029_211641.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
