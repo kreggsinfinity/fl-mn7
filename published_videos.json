@@ -133,5 +133,14 @@
     "duration_min": 22.58,
     "video_file": "podcast_ep15_20261029_211641.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 16,
+    "topic": "Stardust & Silk: Weaving Words for Magical Textures and Feelings",
+    "date": "2026-10-30T21:18:01.670790",
+    "duration_sec": 1441.65,
+    "duration_min": 24.03,
+    "video_file": "podcast_ep16_20261030_205717.mp4",
+    "platform": "Facebook"
   }
 ]
