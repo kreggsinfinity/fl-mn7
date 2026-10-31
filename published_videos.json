@@ -142,5 +142,14 @@
     "duration_min": 24.03,
     "video_file": "podcast_ep16_20261030_205717.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 17,
+    "topic": "Moonbeams & Muted Melodies: Evocative Language for Subtle Sounds",
+    "date": "2026-10-31T20:30:12.331909",
+    "duration_sec": 1358.18,
+    "duration_min": 22.64,
+    "video_file": "podcast_ep17_20261031_200954.mp4",
+    "platform": "Facebook"
   }
 ]
