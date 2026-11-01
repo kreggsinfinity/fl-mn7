@@ -151,5 +151,14 @@
     "duration_min": 22.64,
     "video_file": "podcast_ep17_20261031_200954.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 18,
+    "topic": "Flickering Embers & Fading Light: Crafting Vocabulary for Comforting Endings",
+    "date": "2026-11-01T20:59:47.992729",
+    "duration_sec": 1260.96,
+    "duration_min": 21.02,
+    "video_file": "podcast_ep18_20261101_204031.mp4",
+    "platform": "Facebook"
   }
 ]
