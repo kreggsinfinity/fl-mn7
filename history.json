@@ -160,5 +160,14 @@
     "duration_min": 21.02,
     "video_file": "podcast_ep18_20261101_204031.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 19,
+    "topic": "Glimmering Gowns & Gossamer Whispers: Evocative Language for Elegant Evenings",
+    "date": "2026-11-02T23:58:12.750720",
+    "duration_sec": 1348.37,
+    "duration_min": 22.47,
+    "video_file": "podcast_ep19_20261102_233851.mp4",
+    "platform": "Facebook"
   }
 ]
