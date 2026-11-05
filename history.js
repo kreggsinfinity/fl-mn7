@@ -188,6 +188,15 @@ const PODCAST_HISTORY = [
     "duration_min": 22.01,
     "video_file": "podcast_ep21_20261104_221630.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 22,
+    "topic": "The Lullaby of Lace: Unfurling Vocabulary for Delicate Details and Soft Textures",
+    "date": "2026-11-05T22:54:57.980346",
+    "duration_sec": 1245.31,
+    "duration_min": 20.76,
+    "video_file": "podcast_ep22_20261105_224015.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
