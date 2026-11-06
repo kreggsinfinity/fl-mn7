@@ -196,5 +196,14 @@
     "duration_min": 20.76,
     "video_file": "podcast_ep22_20261105_224015.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 23,
+    "topic": "Whispers on the Water: Evocative Language for Calm Rivers and Serene Lakes",
+    "date": "2026-11-06T22:00:23.261798",
+    "duration_sec": 1304.28,
+    "duration_min": 21.74,
+    "video_file": "podcast_ep23_20261106_214124.mp4",
+    "platform": "Facebook"
   }
 ]
