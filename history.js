@@ -206,6 +206,15 @@ const PODCAST_HISTORY = [
     "duration_min": 21.74,
     "video_file": "podcast_ep23_20261106_214124.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 24,
+    "topic": "The Secret Language of Stillness: Mastering Vocabulary for Profound Peace",
+    "date": "2026-11-07T20:41:24.281055",
+    "duration_sec": 1297.7,
+    "duration_min": 21.63,
+    "video_file": "podcast_ep24_20261107_202230.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
