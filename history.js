@@ -215,6 +215,15 @@ const PODCAST_HISTORY = [
     "duration_min": 21.63,
     "video_file": "podcast_ep24_20261107_202230.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 25,
+    "topic": "The Gardener's Glossary: Cultivating Rich Vocabulary for Tranquil Outdoor Spaces",
+    "date": "2026-11-08T21:02:02.475854",
+    "duration_sec": 1416.12,
+    "duration_min": 23.6,
+    "video_file": "podcast_ep25_20261108_204029.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
