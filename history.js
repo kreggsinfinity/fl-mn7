@@ -224,6 +224,15 @@ const PODCAST_HISTORY = [
     "duration_min": 23.6,
     "video_file": "podcast_ep25_20261108_204029.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 26,
+    "topic": "Lingering Light & Luminous Lore: Crafting Vocabulary for Golden Hour Magic",
+    "date": "2026-11-10T00:39:20.465160",
+    "duration_sec": 1292.38,
+    "duration_min": 21.54,
+    "video_file": "podcast_ep26_20261110_002045.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
