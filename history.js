@@ -233,6 +233,15 @@ const PODCAST_HISTORY = [
     "duration_min": 21.54,
     "video_file": "podcast_ep26_20261110_002045.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 27,
+    "topic": "Beneath the Boughs: Unlocking Vocabulary for Cozy Forest Retreats",
+    "date": "2026-11-10T22:10:38.110906",
+    "duration_sec": 1338.74,
+    "duration_min": 22.31,
+    "video_file": "podcast_ep27_20261110_215202.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
