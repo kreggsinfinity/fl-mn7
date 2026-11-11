@@ -242,6 +242,15 @@ const PODCAST_HISTORY = [
     "duration_min": 22.31,
     "video_file": "podcast_ep27_20261110_215202.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 28,
+    "topic": "The Weaver's Whisper: Crafting Character Through Subtle Descriptions",
+    "date": "2026-11-11T23:12:42.168140",
+    "duration_sec": 1261.15,
+    "duration_min": 21.02,
+    "video_file": "podcast_ep28_20261111_225301.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
