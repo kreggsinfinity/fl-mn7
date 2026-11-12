@@ -250,5 +250,14 @@
     "duration_min": 21.02,
     "video_file": "podcast_ep28_20261111_225301.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 29,
+    "topic": "The Art of the Unspoken: Evocative Vocabulary for Subtle Emotions and Gentle Gestures",
+    "date": "2026-11-12T22:35:08.344461",
+    "duration_sec": 1462.68,
+    "duration_min": 24.38,
+    "video_file": "podcast_ep29_20261112_222121.mp4",
+    "platform": "Facebook"
   }
 ]
