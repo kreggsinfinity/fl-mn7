@@ -260,6 +260,15 @@ const PODCAST_HISTORY = [
     "duration_min": 24.38,
     "video_file": "podcast_ep29_20261112_222121.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 30,
+    "topic": "The Language of Gentle Rains: Evocative Vocabulary for Cozy Downpours",
+    "date": "2026-11-13T22:16:01.231255",
+    "duration_sec": 1266.41,
+    "duration_min": 21.11,
+    "video_file": "podcast_ep30_20261113_220410.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
