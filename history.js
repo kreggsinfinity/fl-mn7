@@ -269,6 +269,15 @@ const PODCAST_HISTORY = [
     "duration_min": 21.11,
     "video_file": "podcast_ep30_20261113_220410.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 31,
+    "topic": "The Gentle Alchemy of 'Hygge' Vocabulary: Cultivating Contentment in Your Words",
+    "date": "2026-11-14T21:05:44.195387",
+    "duration_sec": 1346.73,
+    "duration_min": 22.45,
+    "video_file": "podcast_ep31_20261114_205017.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
