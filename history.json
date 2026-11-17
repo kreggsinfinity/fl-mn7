@@ -295,5 +295,14 @@
     "duration_min": 22.86,
     "video_file": "podcast_ep33_20261117_002123.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 34,
+    "topic": "The Luminescent Labyrinth: Navigating Vocabulary for Intricate & Enchanting Interiors",
+    "date": "2026-11-17T23:57:36.577957",
+    "duration_sec": 1392.1,
+    "duration_min": 23.2,
+    "video_file": "podcast_ep34_20261117_233552.mp4",
+    "platform": "Facebook"
   }
 ]
