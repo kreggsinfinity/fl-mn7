@@ -286,5 +286,14 @@
     "duration_min": 20.54,
     "video_file": "podcast_ep32_20261115_210814.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 33,
+    "topic": "Ethereal Evenings: Unlocking Vocabulary for Dreamy Atmospheres",
+    "date": "2026-11-17T00:35:23.972028",
+    "duration_sec": 1371.69,
+    "duration_min": 22.86,
+    "video_file": "podcast_ep33_20261117_002123.mp4",
+    "platform": "Facebook"
   }
 ]
