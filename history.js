@@ -305,6 +305,15 @@ const PODCAST_HISTORY = [
     "duration_min": 23.2,
     "video_file": "podcast_ep34_20261117_233552.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 35,
+    "topic": "The Gilded Glossary: Polishing Your Prose with Words of Refined Elegance",
+    "date": "2026-11-18T23:16:01.733857",
+    "duration_sec": 1290.36,
+    "duration_min": 21.51,
+    "video_file": "podcast_ep35_20261118_225941.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
