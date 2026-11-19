@@ -314,6 +314,15 @@ const PODCAST_HISTORY = [
     "duration_min": 21.51,
     "video_file": "podcast_ep35_20261118_225941.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 36,
+    "topic": "Velvet Nights & Starry Slumber: Vocabulary for Deep Rest & Tranquil Dreams",
+    "date": "2026-11-19T23:26:56.062877",
+    "duration_sec": 1285.7,
+    "duration_min": 21.43,
+    "video_file": "podcast_ep36_20261119_230823.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
