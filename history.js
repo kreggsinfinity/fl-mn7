@@ -323,6 +323,15 @@ const PODCAST_HISTORY = [
     "duration_min": 21.43,
     "video_file": "podcast_ep36_20261119_230823.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 37,
+    "topic": "The Quiet Art of 'Hiraeth': Unlocking Vocabulary for Nostalgia and Longing for Home",
+    "date": "2026-11-20T22:59:13.469293",
+    "duration_sec": 1298.33,
+    "duration_min": 21.64,
+    "video_file": "podcast_ep37_20261120_224413.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
