@@ -331,5 +331,14 @@
     "duration_min": 21.64,
     "video_file": "podcast_ep37_20261120_224413.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 38,
+    "topic": "Candlelit Comforts: Vocabulary for Cozy Hearthside Moments",
+    "date": "2026-11-21T22:04:17.764246",
+    "duration_sec": 1336.94,
+    "duration_min": 22.28,
+    "video_file": "podcast_ep38_20261121_214525.mp4",
+    "platform": "Facebook"
   }
 ]
