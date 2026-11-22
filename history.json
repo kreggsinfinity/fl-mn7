@@ -340,5 +340,14 @@
     "duration_min": 22.28,
     "video_file": "podcast_ep38_20261121_214525.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 39,
+    "topic": "The Language of Lingering Dusk: Mastering Vocabulary for the Fading Light",
+    "date": "2026-11-22T22:11:55.603248",
+    "duration_sec": 1356.6,
+    "duration_min": 22.61,
+    "video_file": "podcast_ep39_20261122_215542.mp4",
+    "platform": "Facebook"
   }
 ]
