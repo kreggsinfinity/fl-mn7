@@ -350,6 +350,15 @@ const PODCAST_HISTORY = [
     "duration_min": 22.61,
     "video_file": "podcast_ep39_20261122_215542.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 40,
+    "topic": "The Language of Gentle Touches: Unlocking Vocabulary for Subtle Physical Sensations",
+    "date": "2026-11-24T03:11:43.912348",
+    "duration_sec": 1274.54,
+    "duration_min": 21.24,
+    "video_file": "podcast_ep40_20261124_025851.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
