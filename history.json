@@ -358,5 +358,14 @@
     "duration_min": 21.24,
     "video_file": "podcast_ep40_20261124_025851.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 41,
+    "topic": "The Lullaby of Lunar Light: Evocative Language for Celestial Calm",
+    "date": "2026-11-25T01:09:17.549886",
+    "duration_sec": 1271.62,
+    "duration_min": 21.19,
+    "video_file": "podcast_ep41_20261125_005650.mp4",
+    "platform": "Facebook"
   }
 ]
