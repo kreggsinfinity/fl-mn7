@@ -368,6 +368,15 @@ const PODCAST_HISTORY = [
     "duration_min": 21.19,
     "video_file": "podcast_ep41_20261125_005650.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 42,
+    "topic": "Whispers of the Waning Moon: Evocative Vocabulary for Subtle Shifts in Light and Mood",
+    "date": "2026-11-26T00:49:35.055176",
+    "duration_sec": 1266.74,
+    "duration_min": 21.11,
+    "video_file": "podcast_ep42_20261126_003343.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
