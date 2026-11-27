@@ -377,6 +377,15 @@ const PODCAST_HISTORY = [
     "duration_min": 21.11,
     "video_file": "podcast_ep42_20261126_003343.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 43,
+    "topic": "The Scent of Serenity: Unlocking Vocabulary for Olfactory Immersion",
+    "date": "2026-11-27T01:00:25.126826",
+    "duration_sec": 1261.73,
+    "duration_min": 21.03,
+    "video_file": "podcast_ep43_20261127_004218.mp4",
+    "platform": "Facebook"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
