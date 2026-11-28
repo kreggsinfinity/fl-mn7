@@ -386,6 +386,15 @@ const PODCAST_HISTORY = [
     "duration_min": 21.03,
     "video_file": "podcast_ep43_20261127_004218.mp4",
     "platform": "Facebook"
+  },
+  {
+    "episode": 44,
+    "topic": "The Whispering Hearth: Cultivating Vocabulary for Cozy Interior Atmospheres",
+    "date": "2026-11-28T00:20:17.292331",
+    "duration_sec": 1250.57,
+    "duration_min": 20.84,
+    "video_file": "podcast_ep44_20261128_000849.mp4",
+    "platform": "None"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
